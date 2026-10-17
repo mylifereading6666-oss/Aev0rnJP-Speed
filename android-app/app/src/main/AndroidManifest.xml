@@ -6,7 +6,7 @@
     <application
         android:allowBackup="false"
         android:label="Aev0rnJP SPEED"
-        android:icon="@android:drawable/sym_def_app_icon"
+        android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="false">
         <activity
