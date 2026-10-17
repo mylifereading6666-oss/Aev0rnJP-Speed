@@ -40,6 +40,15 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug
 
+      - name: Verify APK package and signature
+        run: |
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          unzip -t "$APK"
+          apksigner verify --verbose --print-certs "$APK"
+          aapt dump badging "$APK" | head -n 5
+          ls -lh "$APK"
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
@@ -54,7 +63,7 @@ jobs:
         run: |
           APK="app/build/outputs/apk/debug/app-debug.apk"
           TAG="v1.0.0"
-          ASSET="Aev0rnJP-SPEED.apk"
+          ASSET="app-debug.apk"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" "$APK#$ASSET" --clobber
             gh release edit "$TAG" --title "Aev0rnJP SPEED Android APK" --notes "Aev0rnJP SPEED のAndroid用APKです。\n\nAndroid端末向けのインストールファイルです。iPhoneではインストールできません。測定には通信量が発生します。"
