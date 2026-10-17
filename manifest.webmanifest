@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Aev0rnJP SPEED",
+  "short_name": "SPEED",
+  "description": "Aev0rnJP SPEED internet connection speed test",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080b12",
+  "theme_color": "#080b12",
+  "icons": [
+    {
+      "src": "./app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
