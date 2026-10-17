@@ -43,7 +43,7 @@ jobs:
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Aev0rnJP-SPEED-debug-apk
+          name: Aev0rnJP-SPEED-Android-APK
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
