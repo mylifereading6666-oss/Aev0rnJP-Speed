@@ -40,15 +40,27 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug
 
-      - name: Verify APK archive
+      - name: Verify APK package and signatures
         run: |
           APK="app/build/outputs/apk/debug/app-debug.apk"
           test -s "$APK"
           unzip -t "$APK"
+          SDK="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          APKSIGNER="$(find "$SDK/build-tools" -type f -name apksigner 2>/dev/null | sort -V | tail -n 1)"
+          AAPT="$(find "$SDK/build-tools" -type f -name aapt 2>/dev/null | sort -V | tail -n 1)"
+          if [ -n "$APKSIGNER" ]; then
+            "$APKSIGNER" verify --verbose --print-certs "$APK"
+          else
+            echo "WARNING: apksigner unavailable; signature verification skipped"
+          fi
+          if [ -n "$AAPT" ]; then
+            "$AAPT" dump badging "$APK" | head -n 10
+          else
+            echo "WARNING: aapt unavailable; package metadata check skipped"
+          fi
           echo "APK byte size:"
           stat -c '%s' "$APK"
-          echo "APK archive entries:"
-          unzip -l "$APK" | tail -n 5
+          ls -lh "$APK"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
