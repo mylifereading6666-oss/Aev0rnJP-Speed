@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -47,3 +47,17 @@ jobs:
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish direct-download APK release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          APK="android-app/app/build/outputs/apk/debug/app-debug.apk"
+          TAG="v1.0.0"
+          ASSET="Aev0rnJP-SPEED.apk"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$APK#$ASSET" --clobber
+            gh release edit "$TAG" --title "Aev0rnJP SPEED Android APK" --notes "Aev0rnJP SPEED のAndroid用APKです。\n\nAndroid端末向けのインストールファイルです。iPhoneではインストールできません。測定には通信量が発生します。"
+          else
+            gh release create "$TAG" "$APK#$ASSET" --title "Aev0rnJP SPEED Android APK" --notes "Aev0rnJP SPEED のAndroid用APKです。\n\nAndroid端末向けのインストールファイルです。iPhoneではインストールできません。測定には通信量が発生します。"
+          fi
