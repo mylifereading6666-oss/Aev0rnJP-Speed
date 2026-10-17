@@ -108,7 +108,7 @@ public class MainActivity extends Activity {
                 + "<div style='padding:28px'><h2>Aev0rnJP SPEED</h2>"
                 + "<p>ページを読み込めませんでした。</p>"
                 + "<p style='color:#96a2b8'>インターネット接続を確認して、もう一度お試しください。</p>"
-                + "<button onclick='location.href="" + HOME_URL + ""' "
+                + "<button onclick=\"location.href='" + HOME_URL + "'\" "
                 + "style='padding:14px 22px;border:0;border-radius:24px;background:#6ee7ff;font-weight:bold'>再読み込み</button>"
                 + "</div></body></html>";
         webView.loadDataWithBaseURL(HOME_URL, html, "text/html", "UTF-8", null);
